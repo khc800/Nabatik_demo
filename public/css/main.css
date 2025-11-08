@@ -1,0 +1,102 @@
+* {
+  box-sizing: border-box;
+  font-family: Inter;
+}
+body {
+  font-size: 14px;
+  padding: 0px;
+  margin: 0px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 100vw;
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(rgba(25, 64, 45, 1), rgba(29, 86, 58, 1));
+  padding: 60px 96px;
+}
+.nabatik-title {
+  width: 100%;
+  color: rgba(159, 232, 112, 1);
+  top: 80px;
+  left: 96px;
+  font-family: Inter;
+  font-weight: Regular;
+  font-size: 113px;
+  opacity: 1;
+  text-align: left;
+}
+.name {
+  color: #fff;
+}
+.elements-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 100px;
+}
+.element {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  row-gap: 20px;
+  min-width: 600px;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.variable-title {
+  color: #ffffff;
+  font-weight: lighter;
+  font-size: 26px;
+}
+
+.variable-value {
+  color: #fff;
+  font-weight: normal;
+  font-size: 53px;
+  text-shadow: 0px 0px 6px rgb(255, 255, 255);
+}
+
+#si_logo {
+  /* position: absolute;
+  right: 20px;
+  top: 20px; */
+  /* opacity: 0.5; */
+     width:150px;
+        height:150px;
+}
+#netzero {
+  /* position: absolute;
+  right: 20px;
+  top: 20px; */
+  /* opacity: 0.5; */
+     width:350px;
+        /* height:350px; */
+}
+
+#explain {
+  font-size: 30px;
+  color: #ffffffd8;
+  font-weight: 200;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+img {
+  filter: drop-shadow(2px 2px 5px green);
+}

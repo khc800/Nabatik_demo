@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link href="./css/main.css" rel="stylesheet" />
+    <title>Nabatik</title>
+  </head>
+  <body>
+    <div class="container">
+      <span class="nabatik-title">Nabatik</span>
+      <div class="elements-container">
+        <div class="element">
+          <img
+            src="images/tree.svg"
+            alt="Description"
+            width="300"
+            height="300"
+          />
+          <div class="column">
+            <span class="variable-title">Diameter</span>
+            <span class="variable-value">
+              <span id="diameter" class="variable-value"></span>mm</span
+            >
+          </div>
+        </div>
+        <div class="element">
+          <img
+            src="images/soil.svg"
+            alt="Description"
+            width="300"
+            height="300"
+          />
+          <div class="column">
+            <div class="column">
+              <span class="variable-title">Soil Moisture</span>
+              <span class="variable-value">
+                <span id="soil_moisture" class="variable-value"></span>%</span
+              >
+            </div>
+            <div class="column">
+              <span class="variable-title">Temperature</span>
+              <span class="variable-value">
+                <span id="temperature" class="variable-value"></span>C</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <p id="explain">
+        A wireless monitoring device developed for NetZero to enhance carbon
+        offset offerings through actionable environmental data. It accurately
+        tracks soil and tree health to quantify each tree’s carbon
+        sequestration. Designed for scalable deployment, Nabatik supports
+        climate mitigation by enabling data-driven reforestation and offset
+        strategies
+      </p>
+
+      <div class="row" style="width: 700px; margin: 0px auto">
+        <img id="si_logo" src="images/si_logo.svg" alt="" />
+        <img id="netzero" src="images/netzero.svg" alt="" />
+      </div>
+    </div>
+
+    <script>
+      // default values
+      document.getElementById("soil_moisture").textContent = 10;
+
+      document.getElementById("temperature").textContent = 30;
+
+      document.getElementById("diameter").textContent = 455;
+
+      const soilHistory = [];
+      const tempHistory = [];
+      const diameterHistory = [];
+      const maxHistory = 7;
+
+      const evtSource = new EventSource("/events");
+
+      evtSource.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+
+        addToHistory(soilHistory, data.soil_moisture);
+        addToHistory(tempHistory, data.temperature);
+        addToHistory(diameterHistory, data.diameter);
+
+        document.getElementById("soil_moisture").textContent = Math.round(
+          average(soilHistory)
+        );
+        document.getElementById("temperature").textContent = Math.round(
+          average(tempHistory)
+        );
+        document.getElementById("diameter").textContent = Math.round(
+          average(diameterHistory)
+        );
+      };
+
+      function addToHistory(array, value) {
+        array.push(value);
+        if (array.length > maxHistory) array.shift();
+      }
+
+      function average(array) {
+        const sum = array.reduce((a, b) => a + b, 0);
+        return sum / array.length;
+      }
+    </script>
+
+    <script>
+      function sendRandomData() {
+        if (count > 20) {
+          return;
+        }
+        const soil = Math.floor(Math.random() * 100); // 0-99
+        const temp = Math.floor(Math.random() * 40); // 0-39 °C
+        const diameter = Math.floor(Math.random() * 50); // 0-49 mm
+
+        // Send to Express API
+        fetch("/soil_moisture", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ value: soil }),
+        });
+
+        fetch("/temperature", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ value: temp }),
+        });
+
+        fetch("/diameter", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ value: diameter }),
+        });
+        count++;
+      }
+      let count = 0;
+
+      // Send new values every 2 seconds
+      setInterval(sendRandomData, 1000);
+    </script>
+  </body>
+</html>
