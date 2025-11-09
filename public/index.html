@@ -114,9 +114,9 @@
         if (count > 20) {
           return;
         }
-        const soil = Math.floor(Math.random() * 100); // 0-99
-        const temp = Math.floor(Math.random() * 40); // 0-39 °C
-        const diameter = Math.floor(Math.random() * 50); // 0-49 mm
+        const soil = Math.floor(Math.random() * 74); // 0-99
+        const temp = 24; // 0-39 °C
+        const diameter = 11; // 0-49 mm
 
         // Send to Express API
         fetch("/soil_moisture", {
